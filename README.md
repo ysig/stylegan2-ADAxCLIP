@@ -3,7 +3,7 @@
 A simple notebook inspired by that of https://twitter.com/advadnoun : https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing
 to imagine pictures from sentences based on a model (defined on the Stylegan2-ada architecture and the CLIP model)
 
-Structuring this as a python program (cli) is on its way.
+Structuring this as a python program with a c.l.i. is on its way.
 
 
 # Citations
