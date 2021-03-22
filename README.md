@@ -1,11 +1,15 @@
 # stylegan2-ada x CLIP
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ysig/stylegan2-ADAxCLIP/blob/main/stylegan2_ada%20x%20CLIP.ipynb)
 
-A simple notebook and derived from that of https://twitter.com/advadnoun  
-(see: https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing )
-to imagine pictures from sentences based on a model (defined on the Stylegan2-ada architecture and the CLIP model)
+A simple notebook to imagine pictures from sentences, defined on the stylegan2-ada architecture and the CLIP model.
 
-Comes with a cli:
+I adapted the original notebook of https://twitter.com/advadnoun  
+(see: https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing )
+used for BigGAN.
+
+It works with any stylegan2-ada model which can loaded by [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch)
+
+I have also implemented a cli:
 
 ```
 usage: stylegan2ada-image [-h] [-i TEXT] -n NETWORK [-e NUM_EPOCHS]
@@ -27,6 +31,8 @@ optional arguments:
 
 You will need to download and install the dependencies need for [CLIP](https://github.com/openai/CLIP) and [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch).  
 (CUDA-11 - pytorch=1.7.1)
+
+Send me feedback if you try it and have exciting results!
 
 # Example
 
