@@ -6,7 +6,6 @@ to imagine pictures from sentences based on a model (defined on the Stylegan2-ad
 Comes with a cli:
 
 ```
-
 usage: stylegan2ada-image [-h] [-i TEXT] -n NETWORK [-e NUM_EPOCHS]
                           [-p TOTAL_PLOTS] [-b BATCH_SIZE] [-s STYLEGAN2_DIR]
                           [-c CLIP_DIR] [--seed SEED] [-o OUTDIR]
@@ -22,10 +21,9 @@ optional arguments:
   -c CLIP_DIR, --clip-dir CLIP_DIR
   --seed SEED
   -o OUTDIR, --outdir OUTDIR 
-
 ```  
 
-You will need to download and install the dependencies need for CLIP and stylegan2-ada-pytorch.
+You will need to download and install the dependencies need for CLIP and stylegan2-ada-pytorch.  
 (CUDA-11 - pytorch=1.7.1)
 
 # Example
