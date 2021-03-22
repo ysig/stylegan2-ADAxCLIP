@@ -1,6 +1,7 @@
 # stylegan2-ADAxCLIP
 
-A simple notebook and inspired by that of https://twitter.com/advadnoun : https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing
+A simple notebook and derived from that of https://twitter.com/advadnoun  
+(see: https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing )
 to imagine pictures from sentences based on a model (defined on the Stylegan2-ada architecture and the CLIP model)
 
 Comes with a cli:
@@ -23,7 +24,7 @@ optional arguments:
   -o OUTDIR, --outdir OUTDIR 
 ```  
 
-You will need to download and install the dependencies need for CLIP and stylegan2-ada-pytorch.  
+You will need to download and install the dependencies need for [CLIP](https://github.com/openai/CLIP) and [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch).  
 (CUDA-11 - pytorch=1.7.1)
 
 # Example
