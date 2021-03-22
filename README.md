@@ -1,4 +1,5 @@
 # stylegan2-ada x CLIP
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/ysig/stylegan2-ADAxCLIP/blob/main/stylegan2_ada%20x%20CLIP.ipynb)
 
 A simple notebook and derived from that of https://twitter.com/advadnoun  
 (see: https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing )
