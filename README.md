@@ -36,6 +36,11 @@ Your cat looks like the devil!
 
 (from `stylegan2-cat-config-f.pkl`)
 
+![Your cat looks like the devil!](./other_takes.png)
+
+(other takes)
+
+
 Hacker
 
 ![Hacker](./hacker.png)
