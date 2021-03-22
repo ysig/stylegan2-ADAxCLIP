@@ -1,4 +1,4 @@
-# stylegan2-ADAxCLIP
+# stylegan2-ada x CLIP
 
 A simple notebook and derived from that of https://twitter.com/advadnoun  
 (see: https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing )
