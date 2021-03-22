@@ -1,10 +1,46 @@
 # stylegan2-ADAxCLIP
 
-A simple notebook inspired by that of https://twitter.com/advadnoun : https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing
+A simple notebook and inspired by that of https://twitter.com/advadnoun : https://colab.research.google.com/drive/1NCceX2mbiKOSlAd_o7IU7nA9UskKN5WR?usp=sharing
 to imagine pictures from sentences based on a model (defined on the Stylegan2-ada architecture and the CLIP model)
 
-Structuring this as a python program with a c.l.i. is on its way.
+Comes with a cli:
 
+```
+
+usage: stylegan2ada-image [-h] [-i TEXT] -n NETWORK [-e NUM_EPOCHS]
+                          [-p TOTAL_PLOTS] [-b BATCH_SIZE] [-s STYLEGAN2_DIR]
+                          [-c CLIP_DIR] [--seed SEED] [-o OUTDIR]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -i TEXT, --text TEXT
+  -n NETWORK, --network NETWORK
+  -e NUM_EPOCHS, --num-epochs NUM_EPOCHS
+  -p TOTAL_PLOTS, --total-plots TOTAL_PLOTS
+  -b BATCH_SIZE, --batch-size BATCH_SIZE
+  -s STYLEGAN2_DIR, --stylegan2-dir STYLEGAN2_DIR
+  -c CLIP_DIR, --clip-dir CLIP_DIR
+  --seed SEED
+  -o OUTDIR, --outdir OUTDIR 
+
+```  
+
+You will need to download and install the dependencies need for CLIP and stylegan2-ada-pytorch.
+(CUDA-11 - pytorch=1.7.1)
+
+# Example
+
+Your cat looks like the devil!
+
+![Your cat looks like the devil!](./cat.png)
+
+(from `stylegan2-cat-config-f.pkl`)
+
+Hacker
+
+![Hacker](./hacker.png)
+
+(from `ffhq.pkl`)
 
 # Citations
 
