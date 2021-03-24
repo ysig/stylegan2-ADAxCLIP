@@ -62,7 +62,7 @@ def plot(model, loss, iter, odir, lats):
   model.gen_pil(lts.unsqueeze(0)).save(os.path.join(odir, f"{iter}.png"))
   return lts
 
-def ascend_txt(model, perceptor, t, nom, lats):
+def ascend_txt(model, perceptor, t, nom, lats, la, lb):
   out = model(lats(), 1.0)
   cutn, sideX, sideY = out.size()[1:]
   p_s = []
@@ -90,11 +90,11 @@ def ascend_txt(model, perceptor, t, nom, lats):
     kurtoses = torch.mean(torch.pow(zscores, 4.0)) - 3.0
     lat_l = lat_l + torch.abs(kurtoses) / llls.shape[0] + torch.abs(skews) / llls.shape[0]
   
-  return lat_l, -100*torch.cosine_similarity(t, iii, dim=-1).mean()
+  return la*lat_l, -lb*torch.cosine_similarity(t, iii, dim=-1).mean()
 
 def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats):
   optimizer.zero_grad()
-  a, b = ascend_txt(model, perceptor, t, nom, lats)
+  a, b = ascend_txt(model, perceptor, t, nom, lats, la, lb)
   loss = a + b
   loss.backward()
   optimizer.step()
@@ -106,7 +106,7 @@ def final(odir, plot_every, model, perceptor, optimizer, t, nom, lats):
   with torch.no_grad():
     np.save(os.path.join(odir, 'final'), plot(model, ascend_txt(model, perceptor, t, nom, lats)[1], 'final', odir, lats).cpu().numpy())
 
-def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP"):
+def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP", la=1, lb=100):
     sys.path.insert(1, clip_dir)
     import clip
     perceptor, preprocess = clip.load('ViT-B/32')
@@ -125,7 +125,7 @@ def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, ba
     outdir = (text if outdir is None else outdir)
     plot_every = int(num_epochs/total_plots)
     for i in trange(num_epochs):
-        train(i, outdir, plot_every, model, perceptor, optimizer, t, nom, lats)
+        train(i, outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb)
     final(outdir, plot_every, model, perceptor, optimizer, t, nom, lats)
 
 if __name__ == "__main__":
@@ -137,9 +137,11 @@ if __name__ == "__main__":
     parser.add_argument('-p', '--total-plots', default=20, type=int)
     parser.add_argument('-b', '--batch-size', default=16, type=int)
     parser.add_argument('--lr', default=0.07, type=float)
+    parser.add_argument('--la', default=1, type=float, help='Loss-factor a')
+    parser.add_argument('--lb', default=100, type=float, help='Loss-factor b')
     parser.add_argument('-s', '--stylegan2-dir', default="stylegan2-ada-pytorch")
     parser.add_argument('-c', '--clip-dir', default="CLIP")
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('-o', '--outdir', default=None)
     args = parser.parse_args()
-    imagine(args.text, args.network, args.lr, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir)
+    imagine(args.text, args.network, args.lr, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir, args.la, args.lb)
