@@ -58,8 +58,6 @@ class Pars(torch.nn.Module):
 
 def plot(model, loss, iter, odir, lats):
   best = torch.topk(loss, k=1, largest=False)[1]
-  if not os.path.isdir(odir):
-    os.mkdir(odir)
   lts = lats()[best]
   model.gen_pil(lts.unsqueeze(0)).save(os.path.join(odir, f"{iter}.png"))
   return lts
@@ -91,7 +89,7 @@ def ascend_txt(model, perceptor, t, nom, lats, la, lb):
     skews = torch.mean(torch.pow(zscores, 3.0))
     kurtoses = torch.mean(torch.pow(zscores, 4.0)) - 3.0
     lat_l = lat_l + torch.abs(kurtoses) / llls.shape[0] + torch.abs(skews) / llls.shape[0]
-  
+
   return la*lat_l, -lb*torch.cosine_similarity(t, iii, dim=-1).mean()
 
 def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb):
@@ -125,6 +123,8 @@ def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, ba
     t = perceptor.encode_text(tx.cuda()).detach().clone()
     
     outdir = (text if outdir is None else outdir)
+    if not os.path.isdir(outdir):
+      os.mkdir(outdir)
     plot_every = int(num_epochs/total_plots)
     for i in trange(num_epochs):
         train(i, outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb)
