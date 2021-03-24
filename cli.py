@@ -102,9 +102,9 @@ def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb
   if i % plot_every == 0:
     plot(model, b, i, odir, lats)
 
-def final(odir, plot_every, model, perceptor, optimizer, t, nom, lats):
+def final(odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb):
   with torch.no_grad():
-    np.save(os.path.join(odir, 'final'), plot(model, ascend_txt(model, perceptor, t, nom, lats)[1], 'final', odir, lats).cpu().numpy())
+    np.save(os.path.join(odir, 'final'), plot(model, ascend_txt(model, perceptor, t, nom, lats, la, lb)[1], 'final', odir, lats).cpu().numpy())
 
 def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP", la=1, lb=100):
     sys.path.insert(1, clip_dir)
@@ -126,7 +126,7 @@ def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, ba
     plot_every = int(num_epochs/total_plots)
     for i in trange(num_epochs):
         train(i, outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb)
-    final(outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la=1, lb=100)
+    final(outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb)
 
 if __name__ == "__main__":
     import argparse
