@@ -16,8 +16,9 @@ I have also implemented a cli:
 
 ```
 usage: stylegan2ada-image [-h] [-i TEXT] -n NETWORK [-e NUM_EPOCHS]
-                          [-p TOTAL_PLOTS] [-b BATCH_SIZE] [-s STYLEGAN2_DIR]
-                          [-c CLIP_DIR] [--seed SEED] [-o OUTDIR]
+                          [-p TOTAL_PLOTS] [-b BATCH_SIZE] [--lr LR] [--la LA]
+                          [--lb LB] [-s STYLEGAN2_DIR] [-c CLIP_DIR]
+                          [--seed SEED] [-o OUTDIR]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -26,10 +27,13 @@ optional arguments:
   -e NUM_EPOCHS, --num-epochs NUM_EPOCHS
   -p TOTAL_PLOTS, --total-plots TOTAL_PLOTS
   -b BATCH_SIZE, --batch-size BATCH_SIZE
+  --lr LR
+  --la LA               Loss-factor a
+  --lb LB               Loss-factor b
   -s STYLEGAN2_DIR, --stylegan2-dir STYLEGAN2_DIR
   -c CLIP_DIR, --clip-dir CLIP_DIR
   --seed SEED
-  -o OUTDIR, --outdir OUTDIR 
+  -o OUTDIR, --outdir OUTDIR
 ```  
 
 You will need to download and install the dependencies need for [CLIP](https://github.com/openai/CLIP) and [stylegan2-ada-pytorch](https://github.com/NVlabs/stylegan2-ada-pytorch).  
