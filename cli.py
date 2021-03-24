@@ -126,7 +126,7 @@ def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, ba
     plot_every = int(num_epochs/total_plots)
     for i in trange(num_epochs):
         train(i, outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb)
-    final(outdir, plot_every, model, perceptor, optimizer, t, nom, lats)
+    final(outdir, plot_every, model, perceptor, optimizer, t, nom, lats, la=1, lb=100)
 
 if __name__ == "__main__":
     import argparse
