@@ -23,23 +23,25 @@ def perpre(img):
   return (img.permute(0, 2, 3, 1) * 127.5 + 128).clamp(0, 255).to(torch.uint8)
 
 class Stylegan2Gen(torch.nn.Module):
-  def __init__(self, model_path, stylegan_dir):
+  def __init__(self, model_path, stylegan_dir, truncation_psi=0.5):
     super().__init__()
     sys.path.insert(1, stylegan_dir)
     import legacy
     with open(model_path, 'rb') as f:
       self.G = legacy.load_network_pkl(f)['G_ema'].cuda().eval()
+    self.truncation = truncation_psi
 
   @property
   def z_dim(self):
     return self.G.z_dim
 
-  def forward(self, z, truncation=1.0):
+  def forward(self, z, truncation=None):
     label = torch.zeros([1, self.G.c_dim]).cuda()
-    img = self.G(z, label, truncation_psi=truncation)
-    return img
+    if truncation is None:
+      truncation = self.truncation
+    return self.G(z, label, truncation_psi=truncation)
 
-  def gen_pil(self, z, truncation=1.0):
+  def gen_pil(self, z, truncation=None):
     with torch.no_grad():
       img = perpre(self.forward(z, truncation))
       return to_pil(img[0].cpu().numpy())
@@ -106,11 +108,11 @@ def final(odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb):
   with torch.no_grad():
     np.save(os.path.join(odir, 'final'), plot(model, ascend_txt(model, perceptor, t, nom, lats, la, lb)[1], 'final', odir, lats).cpu().numpy())
 
-def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP", la=1, lb=100):
+def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP", la=1, lb=100, truncation_psi=0.5):
     sys.path.insert(1, clip_dir)
     import clip
     perceptor, preprocess = clip.load('ViT-B/32')
-    model = Stylegan2Gen(model_path, stylegan2_dir)
+    model = Stylegan2Gen(model_path, stylegan2_dir, truncation_psi)
     im_shape = perpre(model(gen_random(model.z_dim)))[0].size()
     sideX, sideY, channels = im_shape
 
@@ -136,6 +138,7 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--num-epochs', default=200, type=int)
     parser.add_argument('-p', '--total-plots', default=20, type=int)
     parser.add_argument('-b', '--batch-size', default=16, type=int)
+    parser.add_argument('--truncation_psi', default=0.5, type=float)
     parser.add_argument('--lr', default=0.07, type=float)
     parser.add_argument('--la', default=1, type=float, help='Loss-factor a')
     parser.add_argument('--lb', default=100, type=float, help='Loss-factor b')
@@ -144,4 +147,4 @@ if __name__ == "__main__":
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('-o', '--outdir', default=None)
     args = parser.parse_args()
-    imagine(args.text, args.network, args.lr, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir, args.la, args.lb)
+    imagine(args.text, args.network, args.lr, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir, args.la, args.lb, args.truncation_psi)
