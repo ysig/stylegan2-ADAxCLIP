@@ -92,7 +92,7 @@ def ascend_txt(model, perceptor, t, nom, lats, la, lb):
   
   return la*lat_l, -lb*torch.cosine_similarity(t, iii, dim=-1).mean()
 
-def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats):
+def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb):
   optimizer.zero_grad()
   a, b = ascend_txt(model, perceptor, t, nom, lats, la, lb)
   loss = a + b
