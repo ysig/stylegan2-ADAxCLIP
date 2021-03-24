@@ -65,7 +65,7 @@ def plot(model, loss, iter, odir, lats):
   return lts
 
 def ascend_txt(model, perceptor, t, nom, lats, la, lb):
-  out = model(lats(), 1.0)
+  out = model(lats())
   cutn, sideX, sideY = out.size()[1:]
   p_s = []
   for ch in range(cutn):
