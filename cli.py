@@ -106,7 +106,7 @@ def final(odir, plot_every, model, perceptor, optimizer, t, nom, lats):
   with torch.no_grad():
     np.save(os.path.join(odir, 'final'), plot(model, ascend_txt(model, perceptor, t, nom, lats)[1], 'final', odir, lats).cpu().numpy())
 
-def imagine(text, model_path, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP"):
+def imagine(text, model_path, lr=.07, seed=0, num_epochs=200, total_plots=20, batch_size=16, outdir=None, stylegan2_dir="stylegan2-ada-pytorch", clip_dir="CLIP"):
     sys.path.insert(1, clip_dir)
     import clip
     perceptor, preprocess = clip.load('ViT-B/32')
@@ -116,7 +116,7 @@ def imagine(text, model_path, seed=0, num_epochs=200, total_plots=20, batch_size
 
     torch.manual_seed(seed)
     lats = Pars(model.z_dim, batch_size).cuda()
-    optimizer = torch.optim.Adam(lats.parameters(), .07)
+    optimizer = torch.optim.Adam(lats.parameters(), lr)
 
     nom = torchvision.transforms.Normalize((0.48145466, 0.4578275, 0.40821073), (0.26862954, 0.26130258, 0.27577711))
     tx = clip.tokenize(text)
@@ -136,9 +136,10 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--num-epochs', default=200, type=int)
     parser.add_argument('-p', '--total-plots', default=20, type=int)
     parser.add_argument('-b', '--batch-size', default=16, type=int)
+    parser.add_argument('--lr', default=0.07, type=float)
     parser.add_argument('-s', '--stylegan2-dir', default="stylegan2-ada-pytorch")
     parser.add_argument('-c', '--clip-dir', default="CLIP")
     parser.add_argument('--seed', default=0, type=int)
     parser.add_argument('-o', '--outdir', default=None)
     args = parser.parse_args()
-    imagine(args.text, args.network, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir)
+    imagine(args.text, args.network, args.lr, args.seed, args.num_epochs, args.total_plots, args.batch_size, args.outdir, args.stylegan2_dir, args.clip_dir)
