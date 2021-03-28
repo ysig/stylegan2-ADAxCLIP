@@ -57,7 +57,7 @@ class Pars(torch.nn.Module):
 # Load the model
 
 def plot(model, loss, iter, odir, lats):
-  best = torch.topk(loss, k=1, largest=False)[1]
+  best = torch.topk(loss, k=1, largest=False)[1].item()
   lts = lats()[best]
   model.gen_pil(lts.unsqueeze(0)).save(os.path.join(odir, f"{iter}.png"))
   return lts
