@@ -90,12 +90,12 @@ def ascend_txt(model, perceptor, t, nom, lats, la, lb):
     kurtoses = torch.mean(torch.pow(zscores, 4.0)) - 3.0
     lat_l = lat_l + torch.abs(kurtoses) / llls.shape[0] + torch.abs(skews) / llls.shape[0]
 
-  return la*lat_l, -lb*torch.cosine_similarity(t, iii, dim=-1).mean()
+  return la*lat_l, -lb*torch.cosine_similarity(t, iii, dim=-1)
 
 def train(i, odir, plot_every, model, perceptor, optimizer, t, nom, lats, la, lb):
   optimizer.zero_grad()
   a, b = ascend_txt(model, perceptor, t, nom, lats, la, lb)
-  loss = a + b
+  loss = a + b.mean()
   loss.backward()
   optimizer.step()
 
